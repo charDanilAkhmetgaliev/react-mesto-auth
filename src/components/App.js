@@ -9,20 +9,35 @@ export default function App() {
   const [isAddPlacePopupOpen, setIsAddPlacePopupOpen] = useState(false);
   const [isEditAvatarPopupOpen, setIsEditAvatarPopupOpen] = useState(false);
   const [formProps, setFormProps] = useState({});
+  const [selectedCard, setSelectedCard] = useState({isOpen: false});
 
   function handleEditAvatarClick()  {
     setIsEditAvatarPopupOpen(true);
   }
+  
   function handleEditProfileClick() {
     setIsEditProfilePopupOpen(true);
   }
+
   function handleAddPlaceClick() {
     setIsAddPlacePopupOpen(true);
   }
+
   function closeAllPopups() {
     setIsEditAvatarPopupOpen(false);
     setIsEditProfilePopupOpen(false);
     setIsAddPlacePopupOpen(false);
+    setSelectedCard({ ...selectedCard, isOpen: false });
+  }
+
+  function handleCardClick(cardData) {
+    setSelectedCard(cardData);
+  }
+
+  function handleOutPopupClick(event) {
+    if (event.target.classList.contains('popup')) {
+      closeAllPopups();
+    }
   }
 
   useEffect(() => {
@@ -88,16 +103,23 @@ export default function App() {
   return (
     <>
       <Header />
-      <Main onEditProfile={handleEditProfileClick} onAddPlac={handleAddPlaceClick} onEditAvatar={handleEditAvatarClick}/>
+      <Main 
+        onEditProfile={handleEditProfileClick} 
+        onAddPlac={handleAddPlaceClick} 
+        onEditAvatar={handleEditAvatarClick} 
+        onCardClick={handleCardClick} 
+        onClose={closeAllPopups} 
+        />
       <Footer />
       <PopupWithForm
         isOpen={isEditProfilePopupOpen || isAddPlacePopupOpen || isEditAvatarPopupOpen}
         name={formProps.name}
         title={formProps.title}
         children={formProps.children}
-        onCLose={closeAllPopups}
-      />
-      <ImagePopup />
+        onClose={closeAllPopups}
+        onOutPopupClick={handleOutPopupClick} 
+        />
+      <ImagePopup card={selectedCard} onClose={closeAllPopups} onOutPopupClick={handleOutPopupClick}/>
     </>
   )
 }

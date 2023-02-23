@@ -2,7 +2,7 @@ import {useEffect, useState} from "react";
 import {api} from '../utils/Api.js';
 import Card from './Card.js';
 
-export default function Main({ onEditAvatar, onEditProfile, onAddPlac }) {
+export default function Main({ onEditAvatar, onEditProfile, onAddPlac, onCardClick, onClose }) {
   const [userName, setUserName] = useState('User name');
   const [userDescription, setUserDescription] = useState('User description');
   const [userAvatar, setUserAvatar] = useState('');
@@ -10,14 +10,13 @@ export default function Main({ onEditAvatar, onEditProfile, onAddPlac }) {
 
   useEffect(() => {
     api.getUserInfo().then(({ name, about, avatar }) => {
-      console.log(about);
       setUserName(name);
       setUserDescription(about);
       setUserAvatar(avatar);
     })
 
     api.getCardsData().then(cardsData => {
-      const newCards = cardsData.map(({ _id, name, link, likes }) => {
+      const newCards = cardsData.reverse().map(({ _id, name, link, likes }) => {
         return {
           _id,
           name,
@@ -30,7 +29,7 @@ export default function Main({ onEditAvatar, onEditProfile, onAddPlac }) {
   }, [])
 
   return (
-    <main className="content">
+    <main className="content" onKeyDown={(e) => (e.key === 'Escape' || e.key === 'Esc') ? onClose() : ''}>
       <section className="profile">
         <div className="profile__container">
           <div className="profile__avatar-container">
@@ -51,7 +50,7 @@ export default function Main({ onEditAvatar, onEditProfile, onAddPlac }) {
       <section className="elements">
         <ul className="elements__list">
           {
-            cards.map(({ _id, ...props}) => <Card key={_id} { ...props } />)
+            cards.map(({ _id, ...props}) => <Card key={_id} onCardClick={onCardClick} { ...props } />)
           }
         </ul>
       </section>

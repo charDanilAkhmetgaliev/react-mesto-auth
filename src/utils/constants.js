@@ -32,14 +32,6 @@ export const validationSetting = {
   errorClass: '.popup__error'
 }
 
-// DOM-элементы
-// export const avatarUpdateButton = document.querySelector('.profile__edit-avatar-button');
-// export const cardPopupOpenButton = document.querySelector('.profile__add-button');
-// export const profilePopupEditButton = document.querySelector('.profile__edit-button');
-// export const profilePopupFormElement = document.querySelector(profilePopupSelector).querySelector(popupFormSelector);
-// export const cardAddPopupFormElement = document.querySelector(cardAddPopupSelector).querySelector(popupFormSelector);
-// export const avatarUpdPopupFormElement = document.querySelector(avatarUpdatePopupSelector).querySelector(popupFormSelector);
-
 // данные подключения к серверу
 export const url = 'https://mesto.nomoreparties.co/v1';
 // данные пользователя
