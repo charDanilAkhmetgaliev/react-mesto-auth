@@ -17,6 +17,3 @@
 * **React**
 
 Структура файлов отсортирована по методологии БЭМ Nested. Сборка осуществляется с помощью Webpack.
-
-## Ссылка на GitHub Pages
-[Ссылка на сайт](https://chardanilakhmetgaliev.github.io/mesto/)
