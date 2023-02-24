@@ -9,7 +9,7 @@ export default function App() {
   const [isEditProfilePopupOpen, setIsEditProfilePopupOpen] = useState(false);
   const [isAddPlacePopupOpen, setIsAddPlacePopupOpen] = useState(false);
   const [isEditAvatarPopupOpen, setIsEditAvatarPopupOpen] = useState(false);
-  const [selectedCard, setSelectedCard] = useState(false);
+  const [selectedCard, setSelectedCard] = useState({name: '', link: ''});
 
   function handleEditAvatarClick() {
     setIsEditAvatarPopupOpen(true);
@@ -27,7 +27,7 @@ export default function App() {
     setIsEditAvatarPopupOpen(false);
     setIsEditProfilePopupOpen(false);
     setIsAddPlacePopupOpen(false);
-    setSelectedCard(false);
+    setSelectedCard({name: '', link: ''});
   }
 
   function handleCardClick(cardData) {
@@ -58,7 +58,6 @@ export default function App() {
         onClose={closeAllPopups}
         onOutPopupClick={handleOutPopupClick}
         buttonText={'Сохранить'}>
-        <ul className="popup__inputs">
           <label htmlFor="" className="popup__input-field">
             <input id="profile-name-input" type="text" className="popup__input popup__input_value-type_name"
                    name="name" minLength="2" maxLength="40" placeholder="Имя пользователя" required/>
@@ -69,7 +68,6 @@ export default function App() {
                    name="about" minLength="2" maxLength="200" placeholder="О себе" required/>
             <span className="popup__error profile-status-input-error"></span>
           </label>
-        </ul>
       </PopupWithForm>
       <PopupWithForm
         isOpen={isAddPlacePopupOpen}
@@ -78,7 +76,6 @@ export default function App() {
         onClose={closeAllPopups}
         onOutPopupClick={handleOutPopupClick}
         buttonText={'Создать'}>
-        <ul className="popup__inputs">
           <label className="popup__input-field">
             <input id="new-card-name-input" type="text" className="popup__input popup__input_value-type_name" name="name" placeholder="Название" minLength="2" maxLength="30" required/>
             <span className="popup__error new-card-name-input-error"></span>
@@ -87,7 +84,6 @@ export default function App() {
             <input id="new-card-url-input" type="url" className="popup__input popup__input_value-type_link" name="link" placeholder="Ссылка на картинку" required/>
             <span className="popup__error new-card-url-input-error"></span>
           </label>
-        </ul>
       </PopupWithForm>
       <PopupWithForm
         isOpen={isEditAvatarPopupOpen}
@@ -96,7 +92,6 @@ export default function App() {
         onClose={closeAllPopups}
         onOutPopupClick={handleOutPopupClick}
         buttonText={'Сохранить'}>
-        <ul className="popup__inputs">
           <label className="popup__input-field">
             <input id="new-card-name-input" type="text" className="popup__input popup__input_value-type_name" name="name" placeholder="Название" minLength="2" maxLength="30" required/>
             <span className="popup__error new-card-name-input-error"></span>
@@ -105,7 +100,6 @@ export default function App() {
             <input id="new-card-url-input" type="url" className="popup__input popup__input_value-type_link" name="link" placeholder="Ссылка на картинку" required/>
             <span className="popup__error new-card-url-input-error"></span>
           </label>
-        </ul>
       </PopupWithForm>
       <ImagePopup card={selectedCard} onClose={closeAllPopups} onOutPopupClick={handleOutPopupClick}/>
     </>

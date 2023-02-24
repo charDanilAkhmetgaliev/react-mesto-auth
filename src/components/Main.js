@@ -13,20 +13,13 @@ export default function Main({ onEditAvatar, onEditProfile, onAddPlac, onCardCli
       setUserName(name);
       setUserDescription(about);
       setUserAvatar(avatar);
-    }).catch(err => console.log(err))
+    })
+    .catch(err => console.log(err))
 
     api.getCardsData().then(cardsData => {
-      console.log(cardsData)
-      const newCards = cardsData.map(({ _id, name, link, likes }) => {
-        return {
-          _id,
-          name,
-          link,
-          likes
-        }
-      });
-      setCards(newCards);
-    }).catch(err => console.log(err));
+      setCards(cardsData);
+    })
+    .catch(err => console.log(err));
   }, [])
 
   return (
