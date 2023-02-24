@@ -3,8 +3,8 @@ import {api} from '../utils/Api.js';
 import Card from './Card.js';
 
 export default function Main({ onEditAvatar, onEditProfile, onAddPlac, onCardClick, onClose }) {
-  const [userName, setUserName] = useState('User name');
-  const [userDescription, setUserDescription] = useState('User description');
+  const [userName, setUserName] = useState('');
+  const [userDescription, setUserDescription] = useState('');
   const [userAvatar, setUserAvatar] = useState('');
   const [cards, setCards] = useState([]);
 
@@ -13,10 +13,11 @@ export default function Main({ onEditAvatar, onEditProfile, onAddPlac, onCardCli
       setUserName(name);
       setUserDescription(about);
       setUserAvatar(avatar);
-    })
+    }).catch(err => console.log(err))
 
     api.getCardsData().then(cardsData => {
-      const newCards = cardsData.reverse().map(({ _id, name, link, likes }) => {
+      console.log(cardsData)
+      const newCards = cardsData.map(({ _id, name, link, likes }) => {
         return {
           _id,
           name,
@@ -25,7 +26,7 @@ export default function Main({ onEditAvatar, onEditProfile, onAddPlac, onCardCli
         }
       });
       setCards(newCards);
-    });
+    }).catch(err => console.log(err));
   }, [])
 
   return (
@@ -50,7 +51,7 @@ export default function Main({ onEditAvatar, onEditProfile, onAddPlac, onCardCli
       <section className="elements">
         <ul className="elements__list">
           {
-            cards.map(({ _id, ...props}) => <Card key={_id} onCardClick={onCardClick} { ...props } />)
+            cards.map(({ _id, ...props}) => (<Card key={_id} onCardClick={onCardClick} { ...props } />))
           }
         </ul>
       </section>
