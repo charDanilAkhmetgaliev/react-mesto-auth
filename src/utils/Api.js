@@ -63,11 +63,10 @@ class Api {
     return this._createBodyRequest('/users/me', 'PATCH', 'Ошибка обновления профиля', formData)
   }
 
-  addLikeToCard(cardId) {
-    return this._createSimpleRequest(`/cards/${cardId}/likes`, 'PUT', 'Ошибка добавления лайка')
-  }
-
-  delLikeToCard(cardId) {
+  changeLikeCardStatus(cardId, isNotLiked) {
+    if (isNotLiked) {
+      return this._createSimpleRequest(`/cards/${cardId}/likes`, 'PUT', 'Ошибка добавления лайка')
+    }
     return this._createSimpleRequest(`/cards/${cardId}/likes`, 'DELETE', 'Ошибка удаления лайка')
   }
 }
