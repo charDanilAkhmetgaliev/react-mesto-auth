@@ -1,5 +1,4 @@
-import {url,
-        userAuthData} from './constants';
+import { url, userAuthData } from './constants';
 class Api {
   constructor(url, { userToken, cohortName }) {
     this._url = url;
@@ -30,7 +29,6 @@ class Api {
     return fetch(this._completeUrl, {
       method: requestMethod,
       headers: {
-
         'authorization': `${this._userToken}`,
         'content-type': 'application/json'
       },

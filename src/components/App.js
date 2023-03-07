@@ -7,7 +7,7 @@ import ImagePopup from "./ImagePopup";
 import { api } from "../utils/Api";
 import { CurrentUserContext } from "../contexts/CurrentUserContext";
 import EditProfilePopup from "./EditProfilePopup";
-import {logDOM} from "@testing-library/react";
+import EditAvatarPopup from "./EditAvatarPopup";
 
 export default function App() {
   const [isEditProfilePopupOpen, setIsEditProfilePopupOpen] = useState(false);
@@ -84,6 +84,14 @@ export default function App() {
     .catch(err => console.log(err));
   }
 
+  function handleUpdateAvatar(avatarData) {
+    api.updateAvatarData(avatarData).then((userData) => {
+      setCurrentUser(userData);
+      closeAllPopups();
+    })
+    .catch(err => console.log(err))
+  }
+
   return (
     <>
       <Header/>
@@ -103,8 +111,12 @@ export default function App() {
           isOpen={isEditProfilePopupOpen}
           onClose={closeAllPopups}
           onOutPopupClick={handleOutPopupClick}
-          onUpdateUser={handleUpdateUser}>
-        </EditProfilePopup>
+          onUpdateUser={handleUpdateUser} />
+        <EditAvatarPopup
+          isOpen={isEditAvatarPopupOpen}
+          onClose={closeAllPopups}
+          onOutPopupClick={handleOutPopupClick}
+          onUpdateAvatar={handleUpdateAvatar} />
       </CurrentUserContext.Provider>
       <Footer/>
       <PopupWithForm
@@ -114,22 +126,6 @@ export default function App() {
         onClose={closeAllPopups}
         onOutPopupClick={handleOutPopupClick}
         buttonText={'Создать'}>
-          <label className="popup__input-field">
-            <input id="new-card-name-input" type="text" className="popup__input popup__input_value-type_name" name="name" placeholder="Название" minLength="2" maxLength="30" required/>
-            <span className="popup__error new-card-name-input-error"></span>
-          </label>
-          <label className="popup__input-field">
-            <input id="new-card-url-input" type="url" className="popup__input popup__input_value-type_link" name="link" placeholder="Ссылка на картинку" required/>
-            <span className="popup__error new-card-url-input-error"></span>
-          </label>
-      </PopupWithForm>
-      <PopupWithForm
-        isOpen={isEditAvatarPopupOpen}
-        name={'avatar-update'}
-        title={'Обновить аватар'}
-        onClose={closeAllPopups}
-        onOutPopupClick={handleOutPopupClick}
-        buttonText={'Сохранить'}>
           <label className="popup__input-field">
             <input id="new-card-name-input" type="text" className="popup__input popup__input_value-type_name" name="name" placeholder="Название" minLength="2" maxLength="30" required/>
             <span className="popup__error new-card-name-input-error"></span>
