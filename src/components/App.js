@@ -6,6 +6,8 @@ import PopupWithForm from "./PopupWithForm";
 import ImagePopup from "./ImagePopup";
 import { api } from "../utils/Api";
 import { CurrentUserContext } from "../contexts/CurrentUserContext";
+import EditProfilePopup from "./EditProfilePopup";
+import {logDOM} from "@testing-library/react";
 
 export default function App() {
   const [isEditProfilePopupOpen, setIsEditProfilePopupOpen] = useState(false);
@@ -74,6 +76,14 @@ export default function App() {
     .catch(err => console.log(err));
   }
 
+  function handleUpdateUser(newUserData) {
+    api.updateProfileData(newUserData).then((userData) => {
+      setCurrentUser(userData);
+      closeAllPopups();
+    })
+    .catch(err => console.log(err));
+  }
+
   return (
     <>
       <Header/>
@@ -89,26 +99,14 @@ export default function App() {
           setCards={handleSetCards}
           onCardDelete={handleCardDelete}
         />
+        <EditProfilePopup
+          isOpen={isEditProfilePopupOpen}
+          onClose={closeAllPopups}
+          onOutPopupClick={handleOutPopupClick}
+          onUpdateUser={handleUpdateUser}>
+        </EditProfilePopup>
       </CurrentUserContext.Provider>
       <Footer/>
-      <PopupWithForm
-        isOpen={isEditProfilePopupOpen}
-        name={'profile-edit'}
-        title={'Редактировать профиль'}
-        onClose={closeAllPopups}
-        onOutPopupClick={handleOutPopupClick}
-        buttonText={'Сохранить'}>
-          <label htmlFor="" className="popup__input-field">
-            <input id="profile-name-input" type="text" className="popup__input popup__input_value-type_name"
-                   name="name" minLength="2" maxLength="40" placeholder="Имя пользователя" required/>
-            <span className="popup__error profile-name-input-error"></span>
-          </label>
-          <label className="popup__input-field">
-            <input id="profile-status-input" type="text" className="popup__input popup__input_value-type_status"
-                   name="about" minLength="2" maxLength="200" placeholder="О себе" required/>
-            <span className="popup__error profile-status-input-error"></span>
-          </label>
-      </PopupWithForm>
       <PopupWithForm
         isOpen={isAddPlacePopupOpen}
         name={'card-add'}
