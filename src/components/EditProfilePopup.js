@@ -15,13 +15,11 @@ export default function EditProfilePopup({ isOpen, onClose, onOutPopupClick, onU
     setDescription(e.target.value);
   }
 
-  function handleSubmit(e) {
-    e.preventDefault();
-
-    onUpdateUser({
+  function handleSubmit() {
+    return onUpdateUser({
       name,
       about: description
-    });
+    })
   }
 
   useEffect(() => {

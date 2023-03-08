@@ -1,17 +1,9 @@
-import { useEffect, useState, useContext, memo } from "react";
-import { api } from '../utils/Api.js';
+import { useContext, memo } from "react";
 import Card from './Card.js';
 import { CurrentUserContext } from "../contexts/CurrentUserContext";
 
-export default memo(function Main({ onEditAvatar, onEditProfile, onAddPlac, onCardClick, onClose, onCardLike, cards, setCards, onCardDelete }) {
+export default memo(function Main({ onEditAvatar, onEditProfile, onAddPlac, onCardClick, onClose, onCardLike, cards, onCardDelete }) {
   const { name, about, avatar } = useContext(CurrentUserContext);
-
-  useEffect(() => {
-    api.getCardsData().then(cardsData => {
-      setCards(cardsData);
-    })
-      .catch(err => console.log(err));
-  }, [])
 
   return (
     <main className="content" onKeyDown={(e) => (e.key === 'Escape' || e.key === 'Esc') && onClose()}>

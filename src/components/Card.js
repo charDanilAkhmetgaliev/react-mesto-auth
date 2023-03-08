@@ -5,7 +5,6 @@ export default function Card({ onCardDelete, onCardClick, onCardLike, owner, lik
   const isOwn = owner._id === currentUser._id;
   const isLiked = likes.some((like) => like._id === currentUser._id);
   function handleClick() {
-    console.log(likes, id)
     onCardClick({ name, link });
   }
 

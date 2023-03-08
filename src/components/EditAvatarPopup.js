@@ -5,10 +5,8 @@ import { CurrentUserContext } from '../contexts/CurrentUserContext'
 export default function EditAvatarPopup({ isOpen, onClose, onOutPopupClick, onUpdateAvatar }) {
   const inputLinkRef = useRef();
   const currentUser = useContext(CurrentUserContext);
-  function handleSubmit(e) {
-    e.preventDefault();
-
-    onUpdateAvatar({ avatar: inputLinkRef.current.value });
+  function handleSubmit() {
+    return onUpdateAvatar({ avatar: inputLinkRef.current.value })
   }
 
   useEffect(() => {
