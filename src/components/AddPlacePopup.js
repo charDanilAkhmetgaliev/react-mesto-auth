@@ -1,9 +1,22 @@
 import PopupWithForm from "./PopupWithForm";
-import {useEffect, useState} from "react";
+import { useEffect, useRef, useState } from "react";
 
-export default function AddPlacePopup({ isOpen, onClose, onOutPopupClick, onAddPlace, cards }) {
+export default function AddPlacePopup({ isOpen, onClose, onOutPopupClick, onAddPlace, onValidation }) {
   const [name, setName] = useState('');
   const [link, setLink] = useState('');
+
+  const nameInputRef = useRef();
+  const nameSpanRef = useRef();
+  const linkInputRef = useRef()
+  const linkSpanRef = useRef();
+
+  function handleValidationName() {
+    onValidation({ inputElement: nameInputRef.current, spanElement: nameSpanRef.current });
+  }
+
+  function handleValidationLink() {
+    onValidation({ inputElement: linkInputRef.current, spanElement: linkSpanRef.current });
+  }
 
   function handleChangeName(e) {
     setName(e.target.value);
@@ -20,7 +33,11 @@ export default function AddPlacePopup({ isOpen, onClose, onOutPopupClick, onAddP
   useEffect(() => {
     setName('');
     setLink('');
-  }, [cards])
+    nameSpanRef.current.textContent = '';
+    linkSpanRef.current.textContent = '';
+    nameInputRef.current.classList.remove('popup__input_error');
+    linkInputRef.current.classList.remove('popup__input_error');
+  }, [isOpen])
 
   return (
     <PopupWithForm
@@ -32,7 +49,8 @@ export default function AddPlacePopup({ isOpen, onClose, onOutPopupClick, onAddP
       buttonText={'Создать'}
       onSubmit={handleSubmit}>
         <label className="popup__input-field">
-          <input id="new-card-name-input"
+          <input ref={nameInputRef}
+                 id="new-card-name-input"
                  type="text"
                  className="popup__input popup__input_value-type_name"
                  onChange={handleChangeName}
@@ -41,19 +59,22 @@ export default function AddPlacePopup({ isOpen, onClose, onOutPopupClick, onAddP
                  placeholder="Название"
                  minLength="2"
                  maxLength="30"
+                 onInput={handleValidationName}
                  required/>
-          <span className="popup__error new-card-name-input-error"></span>
+          <span ref={nameSpanRef} className="popup__error new-card-name-input-error"></span>
         </label>
         <label className="popup__input-field">
-          <input id="new-card-url-input"
+          <input ref={linkInputRef}
+                 id="new-card-url-input"
                  type="url"
                  className="popup__input popup__input_value-type_link"
                  onChange={handleChangeLink}
                  value={link || ''}
                  name="link"
                  placeholder="Ссылка на картинку"
+                 onInput={handleValidationLink}
                  required/>
-          <span className="popup__error new-card-url-input-error"></span>
+          <span ref={linkSpanRef} className="popup__error new-card-url-input-error"></span>
         </label>
     </PopupWithForm>
   )

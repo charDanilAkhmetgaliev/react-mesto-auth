@@ -5,6 +5,7 @@ import Footer from './Footer';
 import ImagePopup from "./ImagePopup";
 import { api } from "../utils/Api";
 import { CurrentUserContext } from "../contexts/CurrentUserContext";
+import { ValidationContext} from "../contexts/ValidationContext";
 import EditProfilePopup from "./EditProfilePopup";
 import EditAvatarPopup from "./EditAvatarPopup";
 import AddPlacePopup from "./AddPlacePopup";
@@ -17,6 +18,7 @@ export default function App() {
   const [selectedCard, setSelectedCard] = useState({name: '', link: ''});
   const [currentUser, setCurrentUser] = useState({});
   const [cards, setCards] = useState([]);
+  const [isValid, setValid] = useState(false);
 
   function handleEditAvatarClick() {
     setIsEditAvatarPopupOpen(true);
@@ -36,6 +38,7 @@ export default function App() {
     setIsAddPlacePopupOpen(false);
     setIsOpenImagePopup(false);
     setTimeout(setSelectedCard, 300, {name: '', link: ''});
+    setValid(false);
   }
 
   function handleCardClick(cardData) {
@@ -97,6 +100,22 @@ export default function App() {
     .catch(err => console.log(err));
   }, [])
 
+  const hasInvalidInput = (inputElement) => !inputElement.validity.valid;
+
+  function handleValidation({ inputElement, spanElement }) {
+    if (hasInvalidInput(inputElement)) {
+      setValid(false);
+      inputElement.classList.add('popup__input_error');
+      spanElement.classList.add('popup__error_active');
+      spanElement.textContent = inputElement.validationMessage;
+    } else {
+      spanElement.textContent = '';
+      spanElement.classList.remove('popup__error_active');
+      inputElement.classList.remove('popup__input_error');
+      setValid(true);
+    }
+  }
+
   return (
     <>
       <Header/>
@@ -111,24 +130,28 @@ export default function App() {
           cards={cards}
           onCardDelete={handleCardDelete}
         />
-        <EditProfilePopup
-          isOpen={isEditProfilePopupOpen}
-          onClose={closeAllPopups}
-          onOutPopupClick={handleOutPopupClick}
-          onUpdateUser={handleUpdateUser} />
-        <EditAvatarPopup
-          isOpen={isEditAvatarPopupOpen}
-          onClose={closeAllPopups}
-          onOutPopupClick={handleOutPopupClick}
-          onUpdateAvatar={handleUpdateAvatar} />
+        <ValidationContext.Provider value={isValid}>
+          <EditProfilePopup
+            isOpen={isEditProfilePopupOpen}
+            onClose={closeAllPopups}
+            onOutPopupClick={handleOutPopupClick}
+            onUpdateUser={handleUpdateUser}
+            onValidation={handleValidation} />
+          <EditAvatarPopup
+            isOpen={isEditAvatarPopupOpen}
+            onClose={closeAllPopups}
+            onOutPopupClick={handleOutPopupClick}
+            onUpdateAvatar={handleUpdateAvatar}
+            onValidation={handleValidation} />
+          <AddPlacePopup
+            isOpen={isAddPlacePopupOpen}
+            onClose={closeAllPopups}
+            onOutPopupClick={handleOutPopupClick}
+            onAddPlace={handleAddPlaceSubmit}
+            cards={cards}
+            onValidation={handleValidation} />
+        </ValidationContext.Provider>
       </CurrentUserContext.Provider>
-      <AddPlacePopup
-        isOpen={isAddPlacePopupOpen}
-        onClose={closeAllPopups}
-        onOutPopupClick={handleOutPopupClick}
-        onAddPlace={handleAddPlaceSubmit}
-        cards={cards}
-      />
       <Footer/>
       <ImagePopup card={selectedCard} onClose={closeAllPopups} onOutPopupClick={handleOutPopupClick} isOpen={isOpenImagePopup} />
     </>
