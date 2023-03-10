@@ -13,7 +13,7 @@ export default function Card({ onCardDelete, onCardClick, onCardLike, owner, lik
   }
 
   function handleCardDelete() {
-    onCardDelete({ id });
+    onCardDelete(id);
   }
 
   return (
