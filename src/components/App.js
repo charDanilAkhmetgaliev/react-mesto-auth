@@ -1,15 +1,15 @@
 import { useState, useEffect } from "react";
 import Header from './Header.js';
-import Main from './Main';
-import Footer from './Footer';
-import ImagePopup from "./ImagePopup";
-import { api } from "../utils/Api";
-import { CurrentUserContext } from "../contexts/CurrentUserContext";
-import { ValidationContext} from "../contexts/ValidationContext";
-import EditProfilePopup from "./EditProfilePopup";
-import EditAvatarPopup from "./EditAvatarPopup";
-import AddPlacePopup from "./AddPlacePopup";
-import PopupWithForm from "./PopupWithForm";
+import Main from './Main.js';
+import Footer from './Footer.js';
+import ImagePopup from "./ImagePopup.js";
+import { api } from "../utils/Api.js";
+import { CurrentUserContext } from "../contexts/CurrentUserContext.js";
+import { ValidationContext} from "../contexts/ValidationContext.js";
+import EditProfilePopup from "./EditProfilePopup.js";
+import EditAvatarPopup from "./EditAvatarPopup.js";
+import AddPlacePopup from "./AddPlacePopup.js";
+import PopupWithForm from "./PopupWithForm.js";
 
 export default function App() {
   const [isEditProfilePopupOpen, setIsEditProfilePopupOpen] = useState(false);
