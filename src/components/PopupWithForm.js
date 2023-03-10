@@ -9,7 +9,7 @@ export default function PopupWithForm({ name, isOpen, title, onClose, onOutPopup
   function handleSubmit(e) {
     e.preventDefault();
     setButText('Сохранение...');
-    onSubmit(e)
+    onSubmit()
     .catch(err => console.log(err))
     .finally(() => setTimeout(setButText, 300, buttonText));
   }

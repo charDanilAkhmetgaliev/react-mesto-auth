@@ -9,16 +9,25 @@ import { ValidationContext} from "../contexts/ValidationContext";
 import EditProfilePopup from "./EditProfilePopup";
 import EditAvatarPopup from "./EditAvatarPopup";
 import AddPlacePopup from "./AddPlacePopup";
+import PopupWithForm from "./PopupWithForm";
 
 export default function App() {
   const [isEditProfilePopupOpen, setIsEditProfilePopupOpen] = useState(false);
   const [isAddPlacePopupOpen, setIsAddPlacePopupOpen] = useState(false);
   const [isEditAvatarPopupOpen, setIsEditAvatarPopupOpen] = useState(false);
-  const [isOpenImagePopup, setIsOpenImagePopup] = useState(false);
+  const [isImagePopupOpen, setIsImagePopupOpen] = useState(false);
+  const [isDeleteCardPopupOpen, setIsDeleteCardPopupOpen] = useState(false);
   const [selectedCard, setSelectedCard] = useState({name: '', link: ''});
   const [currentUser, setCurrentUser] = useState({});
   const [cards, setCards] = useState([]);
   const [isValid, setValid] = useState(false);
+  const [deletedCardId, setDeletedCardId] = useState('');
+
+  function handleDeleteCardClick(id) {
+    setIsDeleteCardPopupOpen(true);
+    setValid(true);
+    setDeletedCardId(id);
+  }
 
   function handleEditAvatarClick() {
     setIsEditAvatarPopupOpen(true);
@@ -36,13 +45,14 @@ export default function App() {
     setIsEditAvatarPopupOpen(false);
     setIsEditProfilePopupOpen(false);
     setIsAddPlacePopupOpen(false);
-    setIsOpenImagePopup(false);
+    setIsImagePopupOpen(false);
+    setIsDeleteCardPopupOpen(false);
     setTimeout(setSelectedCard, 300, {name: '', link: ''});
     setValid(false);
   }
 
   function handleCardClick(cardData) {
-    setIsOpenImagePopup(true);
+    setIsImagePopupOpen(true);
     setSelectedCard(cardData);
   }
 
@@ -60,11 +70,11 @@ export default function App() {
     .catch(err => console.log(err));
   }
 
-  function handleCardDelete(card) {
-    api.deleteCardData(card.id).then((res) => {
-      setCards((currentCards) => currentCards.filter((currentCard) => currentCard._id !== card.id))
+  function handleCardDelete() {
+    return api.deleteCardData(deletedCardId).then(() => {
+      setCards((currentCards) => currentCards.filter((currentCard) => currentCard._id !== deletedCardId));
+      closeAllPopups();
     })
-    .catch(err => console.log(err));
   }
 
   function handleUpdateUser(newUserData) {
@@ -100,10 +110,8 @@ export default function App() {
     .catch(err => console.log(err));
   }, [])
 
-  const hasInvalidInput = (inputElement) => !inputElement.validity.valid;
-
   function handleValidation({ inputElement, spanElement }) {
-    if (hasInvalidInput(inputElement)) {
+    if (!inputElement.validity.valid) {
       setValid(false);
       inputElement.classList.add('popup__input_error');
       spanElement.classList.add('popup__error_active');
@@ -127,8 +135,8 @@ export default function App() {
           onCardClick={handleCardClick}
           onClose={closeAllPopups}
           onCardLike={handleCardLike}
+          onCardDelete={handleDeleteCardClick}
           cards={cards}
-          onCardDelete={handleCardDelete}
         />
         <ValidationContext.Provider value={isValid}>
           <EditProfilePopup
@@ -148,12 +156,18 @@ export default function App() {
             onClose={closeAllPopups}
             onOutPopupClick={handleOutPopupClick}
             onAddPlace={handleAddPlaceSubmit}
-            cards={cards}
             onValidation={handleValidation} />
+          <PopupWithForm isOpen={isDeleteCardPopupOpen}
+                         name={'card-delete'}
+                         title={'Вы уверены?'}
+                         onClose={closeAllPopups}
+                         onOutPopupClick={handleOutPopupClick}
+                         onSubmit={handleCardDelete}
+                         buttonText={'Да'} />
+          <Footer/>
         </ValidationContext.Provider>
       </CurrentUserContext.Provider>
-      <Footer/>
-      <ImagePopup card={selectedCard} onClose={closeAllPopups} onOutPopupClick={handleOutPopupClick} isOpen={isOpenImagePopup} />
+      <ImagePopup card={selectedCard} onClose={closeAllPopups} onOutPopupClick={handleOutPopupClick} isOpen={isImagePopupOpen} />
     </>
   )
 }
