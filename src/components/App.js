@@ -22,25 +22,31 @@ export default function App() {
   const [cards, setCards] = useState([]);
   const [isValid, setValid] = useState(false);
   const [deletedCardId, setDeletedCardId] = useState('');
-
+  const isOpen = isAddPlacePopupOpen || isEditAvatarPopupOpen || isEditProfilePopupOpen || isImagePopupOpen;
+  // обработчик клика кнопки удаления карточки
   function handleDeleteCardClick(id) {
     setIsDeleteCardPopupOpen(true);
     setValid(true);
     setDeletedCardId(id);
   }
-
+  // обработчик клика кнопки изменения аватара
   function handleEditAvatarClick() {
     setIsEditAvatarPopupOpen(true);
   }
-
+  // обработчик клика кнопки редактирования профиля
   function handleEditProfileClick() {
     setIsEditProfilePopupOpen(true);
   }
-
+  // обработчик клика кнопки создания карточки
   function handleAddPlaceClick() {
     setIsAddPlacePopupOpen(true);
   }
-
+  // обработчик клика по карточке
+  function handleCardClick(cardData) {
+    setIsImagePopupOpen(true);
+    setSelectedCard(cardData);
+  }
+  // функция закрытия всех попапов
   function closeAllPopups() {
     setIsEditAvatarPopupOpen(false);
     setIsEditProfilePopupOpen(false);
@@ -50,18 +56,13 @@ export default function App() {
     setTimeout(setSelectedCard, 300, {name: '', link: ''});
     setValid(false);
   }
-
-  function handleCardClick(cardData) {
-    setIsImagePopupOpen(true);
-    setSelectedCard(cardData);
-  }
-
+  // обработчик клика вне попапа для его закрытия
   function handleOutPopupClick(event) {
     if (event.target.classList.contains('popup')) {
       closeAllPopups();
     }
   }
-
+  // обработчик клика проставления лайка
   function handleCardLike(card) {
     const isLiked = card.likes.some((like) => like._id === currentUser._id);
     api.changeLikeCardStatus(card.id, !isLiked).then((newCard) => {
@@ -69,35 +70,46 @@ export default function App() {
     })
     .catch(err => console.log(err));
   }
-
+  // обработчик клика удаления лайка
   function handleCardDelete() {
     return api.deleteCardData(deletedCardId).then(() => {
       setCards((currentCards) => currentCards.filter((currentCard) => currentCard._id !== deletedCardId));
-      closeAllPopups();
     })
   }
-
+  // обработчик обновления данных профиля
   function handleUpdateUser(newUserData) {
     return api.updateProfileData(newUserData).then((userData) => {
       setCurrentUser(userData);
-      closeAllPopups();
     })
   }
-
+  // обработчик обновления аватара
   function handleUpdateAvatar(avatarData) {
     return api.updateAvatarData(avatarData).then((userData) => {
       setCurrentUser(userData);
-      closeAllPopups();
     })
   }
-
+  // обработчик добавления новой карточки
   function handleAddPlaceSubmit(cardData) {
     return api.sendCardData(cardData).then((newCard) => {
       setCards([newCard, ...cards]);
-      closeAllPopups();
     })
   }
+  // хук для реализации закрытия попапов на Escape
+  useEffect(() => {
+    function closeByEscape(e) {
+      if (e.key === 'Escape') {
+        closeAllPopups();
+      }
+    }
 
+    if (isOpen) {
+      document.addEventListener('keydown', closeByEscape);
+      return () => {
+        document.removeEventListener('keydown', closeByEscape);
+      }
+    }
+  }, [isOpen])
+  // хук для получения исходных данных с сервера
   useEffect(() => {
     api.getUserInfo().then((userData) => {
       setCurrentUser(userData);
@@ -109,7 +121,7 @@ export default function App() {
     })
     .catch(err => console.log(err));
   }, [])
-
+  // обработчик валидации форм
   function handleValidation({ inputElement, spanElement }) {
     if (!inputElement.validity.valid) {
       setValid(false);

@@ -2,11 +2,11 @@ import { useContext, memo } from "react";
 import Card from './Card.js';
 import { CurrentUserContext } from "../contexts/CurrentUserContext";
 
-export default memo(function Main({ onEditAvatar, onEditProfile, onAddPlac, onCardClick, onClose, onCardLike, cards, onCardDelete }) {
+export default memo(function Main({ onEditAvatar, onEditProfile, onAddPlac, onCardClick, onCardLike, cards, onCardDelete }) {
   const { name, about, avatar } = useContext(CurrentUserContext);
 
   return (
-    <main className="content" onKeyDown={(e) => (e.key === 'Escape' || e.key === 'Esc') && onClose()}>
+    <main className="content">
       <section className="profile">
         <div className="profile__container">
           <div className="profile__avatar-container">
