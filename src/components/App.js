@@ -1,4 +1,5 @@
 import { useState, useEffect } from "react";
+import { Routes, Route } from 'react-router-dom';
 import Header from './Header.js';
 import Main from './Main.js';
 import Footer from './Footer.js';
@@ -140,17 +141,20 @@ export default function App() {
     <>
       <Header/>
       <CurrentUserContext.Provider value={currentUser}>
-        <Main
-          onEditProfile={handleEditProfileClick}
-          onAddPlac={handleAddPlaceClick}
-          onEditAvatar={handleEditAvatarClick}
-          onCardClick={handleCardClick}
-          onClose={closeAllPopups}
-          onCardLike={handleCardLike}
-          onCardDelete={handleDeleteCardClick}
-          cards={cards}
-        />
         <ValidationContext.Provider value={isValid}>
+          <Routes>
+            <Route path="/" element={<Main
+              onEditProfile={handleEditProfileClick}
+              onAddPlac={handleAddPlaceClick}
+              onEditAvatar={handleEditAvatarClick}
+              onCardClick={handleCardClick}
+              onClose={closeAllPopups}
+              onCardLike={handleCardLike}
+              onCardDelete={handleDeleteCardClick}
+              cards={cards}/>}/>
+            <Route path="/sign-up"/>
+            <Route path="/sign-in"/>
+          </Routes>
           <EditProfilePopup
             isOpen={isEditProfilePopupOpen}
             onClose={closeAllPopups}
@@ -178,8 +182,8 @@ export default function App() {
                          buttonText={'Да'} />
         </ValidationContext.Provider>
       </CurrentUserContext.Provider>
-      <ImagePopup card={selectedCard} onClose={closeAllPopups} onOutPopupClick={handleOutPopupClick} isOpen={isImagePopupOpen} />
       <Footer/>
+      <ImagePopup card={selectedCard} onClose={closeAllPopups} onOutPopupClick={handleOutPopupClick} isOpen={isImagePopupOpen} />
     </>
   )
 }

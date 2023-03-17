@@ -11,8 +11,11 @@ export default function PopupWithForm({ name, isOpen, title, onClose, onOutPopup
     setButText('Сохранение...');
     onSubmit()
     .catch(err => console.log(err))
-    .finally(() => setTimeout(setButText, 300, buttonText));
-    setTimeout(onClose, 300);
+    .finally(() => {
+      setTimeout(setButText, 300, buttonText);
+      setTimeout(onClose, 300);
+    });
+
   }
 
   return (
