@@ -75,3 +75,4 @@
 @import url(blocks/auth/__input-field/auth__form-field.css);
 @import url(./blocks/auth/__error/auth__error.css);
 @import url(./blocks/auth/__input/auth__input.css);
+@import url(./blocks/header/__auth-link/header__auth-link.css);
