@@ -31,7 +31,7 @@ export default function EditAvatarPopup({ isOpen, onClose, onOutPopupClick, onUp
       onSubmit={handleSubmit}>
         <label className="popup__input-field">
           <input ref={linkInputRef}
-                 id="new-card-url-input"
+                 id="new-avatar-url-input"
                  type="url"
                  className="popup__input popup__input_value-type_link"
                  name="link"
