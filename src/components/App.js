@@ -11,6 +11,7 @@ import EditProfilePopup from "./EditProfilePopup.js";
 import EditAvatarPopup from "./EditAvatarPopup.js";
 import AddPlacePopup from "./AddPlacePopup.js";
 import PopupWithForm from "./PopupWithForm.js";
+import Login from './Login.js';
 
 export default function App() {
   const [isEditProfilePopupOpen, setIsEditProfilePopupOpen] = useState(false);
@@ -153,7 +154,7 @@ export default function App() {
               onCardDelete={handleDeleteCardClick}
               cards={cards}/>}/>
             <Route path="/sign-up"/>
-            <Route path="/sign-in"/>
+            <Route path="/sign-in" element={<Login />}/>
           </Routes>
           <EditProfilePopup
             isOpen={isEditProfilePopupOpen}

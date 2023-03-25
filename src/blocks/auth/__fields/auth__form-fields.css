@@ -1,0 +1,11 @@
+.auth__form-fields {
+  padding: 0;
+  margin: 0 0 173px;
+  margin-inline: 0;
+  padding-block: 0;
+  padding-inline: 0;
+  border: none;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
