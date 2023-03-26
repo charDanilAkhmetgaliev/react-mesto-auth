@@ -1,11 +1,12 @@
 .page__content {
   margin: 0;
   padding: 0;
-  background-color: rgb(0, 0, 0);
   color: rgb(255, 255, 255);
   font-family: 'Inter', 'Arial', sans-serif;
   font-weight: 400;
   position: relative;
+  background-color: rgb(0, 0, 0);
+  min-height: 100vh;
 
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;

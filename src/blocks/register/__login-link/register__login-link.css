@@ -1,0 +1,13 @@
+.register__login-link {
+  margin: 0;
+  padding: 0;
+  text-decoration: none;
+  color: inherit;
+  font-size: 14px;
+  line-height: 14px;
+  transition: opacity 0.3s ease;
+}
+
+.register__login-link:hover {
+  opacity: 0.6;
+}

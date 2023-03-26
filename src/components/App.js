@@ -1,5 +1,5 @@
 import { useState, useEffect } from "react";
-import { Routes, Route } from 'react-router-dom';
+import { Routes, Route, Navigate } from 'react-router-dom';
 import Header from './Header.js';
 import Main from './Main.js';
 import Footer from './Footer.js';
@@ -12,6 +12,7 @@ import EditAvatarPopup from "./EditAvatarPopup.js";
 import AddPlacePopup from "./AddPlacePopup.js";
 import PopupWithForm from "./PopupWithForm.js";
 import Login from './Login.js';
+import Register from "./Register.js";
 
 export default function App() {
   const [isEditProfilePopupOpen, setIsEditProfilePopupOpen] = useState(false);
@@ -25,6 +26,19 @@ export default function App() {
   const [isValid, setValid] = useState(false);
   const [deletedCardId, setDeletedCardId] = useState('');
   const isOpen = isAddPlacePopupOpen || isEditAvatarPopupOpen || isEditProfilePopupOpen || isImagePopupOpen;
+
+  const [loggedIn, setLoggedIn] = useState(true);
+  const [email, setEmail] = useState('');
+  const [password, setPassword] = useState('');
+
+  function handlerEmailChange(value) {
+    setEmail(value);
+  }
+
+  function handlerPasswordChange(value) {
+    setPassword(value);
+  }
+
   // обработчик клика кнопки удаления карточки
   function handleDeleteCardClick(id) {
     setIsDeleteCardPopupOpen(true);
@@ -144,7 +158,7 @@ export default function App() {
       <CurrentUserContext.Provider value={currentUser}>
         <ValidationContext.Provider value={isValid}>
           <Routes>
-            <Route path="/" element={<Main
+            <Route path="/" element={loggedIn ? <Main
               onEditProfile={handleEditProfileClick}
               onAddPlac={handleAddPlaceClick}
               onEditAvatar={handleEditAvatarClick}
@@ -152,8 +166,8 @@ export default function App() {
               onClose={closeAllPopups}
               onCardLike={handleCardLike}
               onCardDelete={handleDeleteCardClick}
-              cards={cards}/>}/>
-            <Route path="/sign-up"/>
+              cards={cards}/> : <Navigate to='/sign-in' replace />} />
+            <Route path="/sign-up" element={<Register />}/>
             <Route path="/sign-in" element={<Login />}/>
           </Routes>
           <EditProfilePopup
