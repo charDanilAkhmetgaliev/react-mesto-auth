@@ -1,15 +1,14 @@
-import AuthForm from './AuthForm.js';
-const Login = ({}) => {
+import AuthForm from './AuthForm.js'
+const Login = () => {
+	const handleSubmit = e => {
+		e.preventDefault()
+	}
 
-  const handleSubmit = (e) => {
-    e.preventDefault();
-  }
-
-  return (
-    <div className='login'>
-      <AuthForm onSubmit={handleSubmit} formHeader='Вход' buttonText='Войти'/>
-    </div>
-  )
+	return (
+		<div className='login'>
+			<AuthForm onSubmit={handleSubmit} formHeader='Вход' buttonText='Войти' />
+		</div>
+	)
 }
 
-export default Login;
+export default Login

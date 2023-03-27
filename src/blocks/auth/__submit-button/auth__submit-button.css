@@ -7,6 +7,14 @@
   cursor: pointer;
   font-size: 16px;
   width: 260px;
+  transition: opacity 0.3s ease;
+}
+
+@media screen and (min-width: 600px) {
+  .auth__submit-button {
+    width: 358px;
+    font-size: 18px;
+  }
 }
 
 .auth__submit-button:hover {
