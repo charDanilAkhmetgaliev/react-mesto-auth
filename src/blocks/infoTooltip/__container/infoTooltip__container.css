@@ -1,0 +1,28 @@
+.infoTooltip__container {
+  width: 280px;
+  height: 308px;
+  margin: 0;
+  padding: 0 18px 50px;
+  background-color: rgb(255, 255, 255);
+  position: relative;
+  display: flex;
+  align-items: flex-end;
+  z-index: 1;
+  border-radius: 10px;
+  box-shadow: 0 0 25px rgba(0, 0, 0, 0.15);
+  background-repeat: no-repeat;
+  background-size: 120px 120px;
+  background-position: top 50px left 80px;
+  color: rgb(0, 0, 0);
+  text-align: center;
+  box-sizing: border-box;
+}
+
+@media screen and (min-width: 1000px) {
+  .infoTooltip__container {
+    padding: 0 36px 60px;
+    width: 430px;
+    height: 330px;
+    background-position: top 60px left 155px;
+  }
+}

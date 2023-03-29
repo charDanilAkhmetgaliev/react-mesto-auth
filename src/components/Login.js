@@ -7,10 +7,20 @@ const Login = () => {
 	const navigate = useNavigate();
 	const value = useContext(AppContext);
 	const handleSubmit = formValue => {
-		return loginUser(formValue).then(() => {
-			value.handleLogin();
-			navigate('/', { replace: true })
-		})
+		return loginUser(formValue)
+			.then((data) => {
+				const jwtToken = JSON.stringify(data);
+				if (jwtToken) {
+					localStorage.setItem('jwt', jwtToken);
+					return jwtToken;
+				} else {
+					console.log(`Ошибка получения jwt, ${jwtToken}`)
+				}
+			})
+			.then(() => {
+				value.handleLogin();
+				navigate('/', { replace: true })
+			})
 	};
 
 	return (

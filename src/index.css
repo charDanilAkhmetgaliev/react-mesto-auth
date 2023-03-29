@@ -84,3 +84,12 @@
 @import url(./blocks/register/register.css);
 @import url(./blocks/register/__login-link/register__login-link.css);
 @import url(./blocks/register/__login-question/register__login-question.css);
+
+/* infoTooltip */
+@import url(./blocks/infoTooltip/infoTooltip.css);
+@import url(./blocks/infoTooltip/__container/infoTooltip__container.css);
+@import url(blocks/infoTooltip/__container/_type/infoTooltip__container_type_failed.css);
+@import url(blocks/infoTooltip/__container/_type/infoTooltip__container_type_success.css);
+@import url(blocks/infoTooltip/__message/infoTooltip__message.css);
+@import url(blocks/infoTooltip/__close-button/infoTooltip__close-button.css);
+@import url(blocks/infoTooltip/_active/infoTooltip__container_active.css);

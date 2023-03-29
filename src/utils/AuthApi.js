@@ -24,15 +24,6 @@ const registerUser = formValue => {
 
 const loginUser = formValue => {
 	return requestConstructor(formValue, 'POST', 'signin', 'Ошибка авторизации', {'Content-Type': 'application/json'})
-		.then(data => {
-			const jwtToken = JSON.stringify(data);
-			if (jwtToken) {
-				localStorage.setItem('jwt', jwtToken);
-				return jwtToken;
-			} else {
-				return;
-			}
-		})
 };
 
 const getContent = jwt => {

@@ -16,6 +16,7 @@ import Register from './Register.js';
 import ProtectedRoute from './ProtectedRoute.js';
 import { getContent } from '../utils/AuthApi.js';
 import {AppContext} from "../contexts/AppContext.js";
+import InfoTooltip from "./InfoTooltip.js";
 
 export default function App() {
 	const [isEditProfilePopupOpen, setIsEditProfilePopupOpen] = useState(false);
@@ -38,6 +39,7 @@ export default function App() {
 		_id: '',
 		email: ''
 	});
+	const [tooltipIsOpen, setTooltipIsOpen] = useState(true);
 	const navigate = useNavigate();
 
 	const handleLogin = () => {
@@ -197,7 +199,7 @@ export default function App() {
 			<Header />
 			<CurrentUserContext.Provider value={currentUser}>
 				<ValidationContext.Provider value={isValid}>
-					<AppContext.Provider value={{loggedIn: loggedIn, handleLogin: handleLogin}}>
+					<AppContext.Provider value={{loggedIn: loggedIn, handleLogin: handleLogin, tooltipIsOpen: tooltipIsOpen}}>
 						<Routes>
 							<Route
 								path='/'
@@ -219,6 +221,7 @@ export default function App() {
 							<Route path='/sign-up' element={<Register />} />
 							<Route path='/sign-in' element={<Login />} />
 						</Routes>
+						<InfoTooltip />
 					</AppContext.Provider>
 					<EditProfilePopup
 						isOpen={isEditProfilePopupOpen}

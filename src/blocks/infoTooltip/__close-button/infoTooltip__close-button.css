@@ -1,4 +1,4 @@
-.popup__close-button {
+.infoTooltip__close-button {
   margin: 0;
   padding: 0;
   width: 20px;
@@ -7,7 +7,7 @@
   border: none;
   background-color: transparent;
   cursor: pointer;
-  top: -33px;
+  top: -36px;
   right: 0;
   color: rgb(255, 255, 255);
   background-image: url(../../../images/close_popup_icon.svg);
@@ -17,12 +17,12 @@
   transition: opacity 0.3s ease;
 }
 
-.popup__close-button:hover {
+.infoTooltip__close-button:hover {
   opacity: 0.6;
 }
 
-@media screen and (min-width: 550px) {
-  .popup__close-button {
+@media screen and (min-width: 1000px) {
+  .infoTooltip__close-button {
     width: 32px;
     height: 32px;
     top: -33px;
