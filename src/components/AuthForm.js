@@ -6,8 +6,6 @@ const AuthForm = ({ onSubmit, formHeader, buttonText }) => {
 		password: '',
 		email: ''
 	});
-
-	const navigate = useNavigate();
 	const resetForm = () => {
 		setFormValue({
 			password: '',
@@ -25,15 +23,11 @@ const AuthForm = ({ onSubmit, formHeader, buttonText }) => {
 
 	const handleSubmit = e => {
 		e.preventDefault();
-		console.log(formValue);
 		return onSubmit(formValue)
 			.then(() => resetForm())
 			.catch(err => console.log(err));
 	};
 
-	useEffect(() => {
-		console.log(formValue);
-	}, [formValue]);
 	return (
 		<form className='auth__form' onSubmit={handleSubmit}>
 			<fieldset className='auth__form-fields'>

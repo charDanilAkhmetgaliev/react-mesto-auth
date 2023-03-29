@@ -2,48 +2,48 @@ import { authUrl } from './constants.js';
 
 const processResponse = (response, error) => {
 	console.log(response.status);
-	switch (response.status) {
-		case 200:
-			return response.json();
-		case 400:
-			console.log('Данные некорректны');
-			return Promise.reject(error);
-		default:
-			return Promise.reject(error);
+	if (response.status === 200 || response.status === 201) {
+		return response.json();
+	} else {
+		console.log('Данные некорректны');
+		return Promise.reject(error);
 	}
 };
 
-const requestConstructor = (formValue, method, endPoint, error) => {
+const requestConstructor = (formValue, method, endPoint, error, headers) => {
 	return fetch(`${authUrl}/${endPoint}`, {
 		method: method,
-		header: {
-			'Content-Type': 'application/json'
-		},
-		body: JSON.stringify({
-			'password': formValue.password,
-			'email': formValue.email
-		})
+		headers: headers,
+		body: JSON.stringify(formValue)
 	}).then(response => processResponse(response, error));
 };
 
-const register = formValue => {
-	return requestConstructor(formValue, 'POST', 'signup', 'Ошибка регистрации');
+const registerUser = formValue => {
+	return requestConstructor(formValue, 'POST', 'signup', 'Ошибка регистрации', {'Content-Type': 'application/json'});
 };
 
-const login = formValue => {
-	return requestConstructor(formValue, 'POST', 'signin', 'Ошибка авторизации');
+const loginUser = formValue => {
+	return requestConstructor(formValue, 'POST', 'signin', 'Ошибка авторизации', {'Content-Type': 'application/json'})
+		.then(data => {
+			const jwtToken = JSON.stringify(data);
+			if (jwtToken) {
+				localStorage.setItem('jwt', jwtToken);
+				return jwtToken;
+			} else {
+				return;
+			}
+		})
 };
 
 const getContent = jwt => {
 	return fetch(`${authUrl}/users/me`, {
 		method: 'GET',
-		header: {
+		headers: {
 			'Content-Type': 'application/json',
-			Authorization: `Bearer ${jwt}`
+			'Authorization': `Bearer ${jwt}`
 		}
-	}).then(response => processResponse(response));
-};
+	}).then(response => processResponse(response, 'Ошибка получения данных'))
+		.then(data => data)
+}
 
-const onSignOut = () => {};
-
-export { register, login, getContent };
+export { registerUser, loginUser, getContent };

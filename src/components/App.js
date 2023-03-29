@@ -1,5 +1,5 @@
 import { useState, useEffect } from 'react';
-import { Routes, Route } from 'react-router-dom';
+import {Routes, Route, useNavigate} from 'react-router-dom';
 import Header from './Header.js';
 import Main from './Main.js';
 import Footer from './Footer.js';
@@ -15,6 +15,7 @@ import Login from './Login.js';
 import Register from './Register.js';
 import ProtectedRoute from './ProtectedRoute.js';
 import { getContent } from '../utils/AuthApi.js';
+import {AppContext} from "../contexts/AppContext.js";
 
 export default function App() {
 	const [isEditProfilePopupOpen, setIsEditProfilePopupOpen] = useState(false);
@@ -37,6 +38,11 @@ export default function App() {
 		_id: '',
 		email: ''
 	});
+	const navigate = useNavigate();
+
+	const handleLogin = () => {
+		setLoggedIn(true);
+	}
 
 	// обработчик клика кнопки удаления карточки
 	function handleDeleteCardClick(id) {
@@ -117,27 +123,29 @@ export default function App() {
 			setCards([newCard, ...cards]);
 		});
 	}
-	// обработчик
-	const handleAuthorization = async jwt => {
-		return getContent(jwt).then(res => {
-			if (res) {
-				setLoggedIn(true);
-				setUserData({
-					_id: res._id,
-					email: res.email
-				});
-			}
-		});
-	};
 
-	// хук получения данных авторизации с сервера
-	useEffect(() => {
+	const tokenCheck = () => {
 		if (localStorage.getItem('jwt')) {
-			const jwt = localStorage.getItem('jwt');
-			return handleAuthorization(jwt);
+			const jwt = JSON.parse(localStorage.getItem('jwt'));
+			if (jwt) {
+				getContent(jwt.token).then((res) => {
+					const userData = {
+						_id: res.data._id,
+						email: res.data.email
+					}
+					console.log(userData)
+					setLoggedIn(true);
+					setUserData(userData);
+					navigate('/', {replace: true});
+				})
+			}
 		}
-		console.log(`jwt не найден, данные: ${localStorage.getItem('jwt')}`);
-	}, [loggedIn]);
+	}
+
+	useEffect(() => {
+		tokenCheck();
+	}, [])
+
 	// хук для реализации закрытия попапов на Escape
 	useEffect(() => {
 		function closeByEscape(e) {
@@ -189,27 +197,29 @@ export default function App() {
 			<Header />
 			<CurrentUserContext.Provider value={currentUser}>
 				<ValidationContext.Provider value={isValid}>
-					<Routes>
-						<Route
-							path='/'
-							element={
-								<ProtectedRoute
-									element={Main}
-									onEditProfile={handleEditProfileClick}
-									onAddPlac={handleAddPlaceClick}
-									onEditAvatar={handleEditAvatarClick}
-									onCardClick={handleCardClick}
-									onClose={closeAllPopups}
-									onCardLike={handleCardLike}
-									onCardDelete={handleDeleteCardClick}
-									cards={cards}
-									loggedIn={loggedIn}
-								/>
-							}
-						/>
-						<Route path='/sign-up' element={<Register />} />
-						<Route path='/sign-in' element={<Login />} />
-					</Routes>
+					<AppContext.Provider value={{loggedIn: loggedIn, handleLogin: handleLogin}}>
+						<Routes>
+							<Route
+								path='/'
+								element={
+									<ProtectedRoute
+										element={Main}
+										onEditProfile={handleEditProfileClick}
+										onAddPlac={handleAddPlaceClick}
+										onEditAvatar={handleEditAvatarClick}
+										onCardClick={handleCardClick}
+										onClose={closeAllPopups}
+										onCardLike={handleCardLike}
+										onCardDelete={handleDeleteCardClick}
+										cards={cards}
+										loggedIn={loggedIn}
+									/>
+								}
+							/>
+							<Route path='/sign-up' element={<Register />} />
+							<Route path='/sign-in' element={<Login />} />
+						</Routes>
+					</AppContext.Provider>
 					<EditProfilePopup
 						isOpen={isEditProfilePopupOpen}
 						onClose={closeAllPopups}

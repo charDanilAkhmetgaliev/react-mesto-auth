@@ -1,20 +1,17 @@
 import AuthForm from './AuthForm.js';
-import { useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { login } from '../utils/AuthApi.js';
+import { loginUser } from '../utils/AuthApi.js';
+import {AppContext} from "../contexts/AppContext.js";
+import {useContext, useEffect} from "react";
 const Login = () => {
 	const navigate = useNavigate();
+	const value = useContext(AppContext);
 	const handleSubmit = formValue => {
-		return login(formValue)
-			.then(jwt => localStorage.setItem('jwt', jwt))
-			.then(() => navigate('/', { replace: true }));
+		return loginUser(formValue).then(() => {
+			value.handleLogin();
+			navigate('/', { replace: true })
+		})
 	};
-
-	useEffect(() => {
-		if (localStorage.getItem('jwt')) {
-			navigate('/', { replace: true });
-		}
-	}, [navigate]);
 
 	return (
 		<div className='login'>
