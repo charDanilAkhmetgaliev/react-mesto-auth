@@ -28,5 +28,3 @@ yarn-error.log*
 /.prettierrc.json
 
 # other
-package.json
-package-lock.json
