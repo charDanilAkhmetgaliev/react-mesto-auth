@@ -1,5 +1,5 @@
 import { useState, useEffect } from 'react';
-import {Routes, Route, useNavigate} from 'react-router-dom';
+import { Routes, Route, useNavigate } from 'react-router-dom';
 import Header from './Header.js';
 import Main from './Main.js';
 import Footer from './Footer.js';
@@ -15,8 +15,8 @@ import Login from './Login.js';
 import Register from './Register.js';
 import ProtectedRoute from './ProtectedRoute.js';
 import { getContent } from '../utils/AuthApi.js';
-import {AppContext} from "../contexts/AppContext.js";
-import InfoTooltip from "./InfoTooltip.js";
+import { AppContext } from '../contexts/AppContext.js';
+import InfoTooltip from './InfoTooltip.js';
 
 export default function App() {
 	const [isEditProfilePopupOpen, setIsEditProfilePopupOpen] = useState(false);
@@ -39,12 +39,29 @@ export default function App() {
 		_id: '',
 		email: ''
 	});
-	const [tooltipIsOpen, setTooltipIsOpen] = useState(true);
+	const [tooltipIsOpen, setTooltipIsOpen] = useState(false);
+	const [registerIsSuccess, setRegisterIsSuccess] = useState(false);
 	const navigate = useNavigate();
+
+	const handleRegisterToSuccess = () => {
+		setRegisterIsSuccess(true);
+	};
+
+	const handleRegisterToFailed = () => {
+		setRegisterIsSuccess(false);
+	};
+
+	const handleTooltipToOpen = () => {
+		setTooltipIsOpen(true);
+	};
+
+	const handleTooltipToClose = () => {
+		setTooltipIsOpen(false);
+	};
 
 	const handleLogin = () => {
 		setLoggedIn(true);
-	}
+	};
 
 	// обработчик клика кнопки удаления карточки
 	function handleDeleteCardClick(id) {
@@ -78,10 +95,14 @@ export default function App() {
 		setIsDeleteCardPopupOpen(false);
 		setTimeout(setSelectedCard, 300, { name: '', link: '' });
 		setValid(false);
+		setTooltipIsOpen(false);
 	}
 	// обработчик клика вне попапа для его закрытия
 	function handleOutPopupClick(event) {
-		if (event.target.classList.contains('popup')) {
+		if (
+			event.target.classList.contains('popup') ||
+			event.target.classList.contains('infoTooltip')
+		) {
 			closeAllPopups();
 		}
 	}
@@ -130,23 +151,19 @@ export default function App() {
 		if (localStorage.getItem('jwt')) {
 			const jwt = JSON.parse(localStorage.getItem('jwt'));
 			if (jwt) {
-				getContent(jwt.token).then((res) => {
+				getContent(jwt.token).then(res => {
 					const userData = {
 						_id: res.data._id,
 						email: res.data.email
-					}
-					console.log(userData)
+					};
+					console.log(userData);
 					setLoggedIn(true);
 					setUserData(userData);
-					navigate('/', {replace: true});
-				})
+					navigate('/', { replace: true });
+				});
 			}
 		}
-	}
-
-	useEffect(() => {
-		tokenCheck();
-	}, [])
+	};
 
 	// хук для реализации закрытия попапов на Escape
 	useEffect(() => {
@@ -156,15 +173,17 @@ export default function App() {
 			}
 		}
 
-		if (isOpen) {
+		if (isOpen || tooltipIsOpen) {
 			document.addEventListener('keydown', closeByEscape);
 			return () => {
 				document.removeEventListener('keydown', closeByEscape);
 			};
 		}
-	}, [isOpen]);
+	}, [isOpen, tooltipIsOpen]);
 	// хук для получения исходных данных с сервера
 	useEffect(() => {
+		tokenCheck();
+
 		api
 			.getUserInfo()
 			.then(userData => {
@@ -199,7 +218,9 @@ export default function App() {
 			<Header />
 			<CurrentUserContext.Provider value={currentUser}>
 				<ValidationContext.Provider value={isValid}>
-					<AppContext.Provider value={{loggedIn: loggedIn, handleLogin: handleLogin, tooltipIsOpen: tooltipIsOpen}}>
+					<AppContext.Provider
+						value={{ loggedIn: loggedIn, handleLogin: handleLogin }}
+					>
 						<Routes>
 							<Route
 								path='/'
@@ -218,10 +239,24 @@ export default function App() {
 									/>
 								}
 							/>
-							<Route path='/sign-up' element={<Register />} />
+							<Route
+								path='/sign-up'
+								element={
+									<Register
+										handleTooltipToOpen={handleTooltipToOpen}
+										handleRegisterToSuccess={handleRegisterToSuccess}
+										handleRegisterToFailed={handleRegisterToFailed}
+									/>
+								}
+							/>
 							<Route path='/sign-in' element={<Login />} />
 						</Routes>
-						<InfoTooltip />
+						<InfoTooltip
+							onClose={handleTooltipToClose}
+							tooltipIsOpen={tooltipIsOpen}
+							onOutTooltipClick={handleOutPopupClick}
+							registerIsSuccess={registerIsSuccess}
+						/>
 					</AppContext.Provider>
 					<EditProfilePopup
 						isOpen={isEditProfilePopupOpen}
