@@ -9,9 +9,15 @@
 @import url(./blocks/header/header.css);
 @import url(./blocks/header/__logo/header__logo.css);
 @import url(./blocks/header/__sign-button/header__sign-button.css);
-@import url(./blocks/header/__sign-container/header__sign-container.css);
+@import url(blocks/header/__sign-tools/header__sign-tools.css);
 @import url(./blocks/header/__sign-email/header__sign-email.css);
 @import url(blocks/header/__sign-link/header__sign-link.css);
+@import url(blocks/header/__sign-container/header__sign-container.css);
+@import url(blocks/header/__content/header__content.css);
+@import url(blocks/header/__burger/header__burger.css);
+@import url(blocks/header/__sign-container/_active/header__sign-container_active.css);
+@import url(blocks/header/__burger/_opened/header__burger_opened.css);
+@import url(blocks/header/__sign-container/_horizontal/header__sign-container_horizontal.css);
 
 /* content */
 @import url(./blocks/content/content.css);

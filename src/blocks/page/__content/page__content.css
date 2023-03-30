@@ -8,6 +8,7 @@
   background-color: rgb(0, 0, 0);
   min-height: 100vh;
 
+  -webkit-tap-highlight-color: transparent;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
   -webkit-text-size-adjust: 100%;

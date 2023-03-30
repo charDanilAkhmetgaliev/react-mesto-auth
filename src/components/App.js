@@ -147,23 +147,34 @@ export default function App() {
 		});
 	}
 
+	const getUserAuthData = jwt => {
+		return getContent(jwt.token).then(res => {
+			setLoggedIn(true);
+			const userData = {
+				_id: res.data._id,
+				email: res.data.email
+			};
+			setUserData(userData);
+		});
+	};
+
 	const tokenCheck = () => {
 		if (localStorage.getItem('jwt')) {
 			const jwt = JSON.parse(localStorage.getItem('jwt'));
 			if (jwt) {
-				getContent(jwt.token).then(res => {
-					const userData = {
-						_id: res.data._id,
-						email: res.data.email
-					};
-					console.log(userData);
-					setLoggedIn(true);
-					setUserData(userData);
-					navigate('/', { replace: true });
-				});
+				getUserAuthData(jwt)
+					.then(() => {
+						navigate('/', { replace: true });
+					})
 			}
+		} else {
+			navigate('sign-in', { replace: true });
 		}
 	};
+
+	useEffect(() => {
+		tokenCheck();
+	}, [loggedIn]);
 
 	// хук для реализации закрытия попапов на Escape
 	useEffect(() => {
@@ -182,8 +193,6 @@ export default function App() {
 	}, [isOpen, tooltipIsOpen]);
 	// хук для получения исходных данных с сервера
 	useEffect(() => {
-		tokenCheck();
-
 		api
 			.getUserInfo()
 			.then(userData => {
@@ -213,9 +222,19 @@ export default function App() {
 		}
 	}
 
+	const signOut = () => {
+		localStorage.removeItem('jwt');
+		setLoggedIn(false);
+		setUserData({
+			_id: '',
+			email: ''
+		});
+		navigate('/sign-in', { replace: true });
+	};
+
 	return (
 		<>
-			<Header />
+			<Header userData={userData} signOut={signOut} />
 			<CurrentUserContext.Provider value={currentUser}>
 				<ValidationContext.Provider value={isValid}>
 					<AppContext.Provider

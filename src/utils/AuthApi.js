@@ -1,7 +1,6 @@
 import { authUrl } from './constants.js';
 
 const processResponse = (response, error) => {
-	console.log(response.status);
 	if (response.status === 200 || response.status === 201) {
 		return response.json();
 	} else {
@@ -19,11 +18,15 @@ const requestConstructor = (formValue, method, endPoint, error, headers) => {
 };
 
 const registerUser = formValue => {
-	return requestConstructor(formValue, 'POST', 'signup', 'Ошибка регистрации', {'Content-Type': 'application/json'});
+	return requestConstructor(formValue, 'POST', 'signup', 'Ошибка регистрации', {
+		'Content-Type': 'application/json'
+	});
 };
 
 const loginUser = formValue => {
-	return requestConstructor(formValue, 'POST', 'signin', 'Ошибка авторизации', {'Content-Type': 'application/json'})
+	return requestConstructor(formValue, 'POST', 'signin', 'Ошибка авторизации', {
+		'Content-Type': 'application/json'
+	});
 };
 
 const getContent = jwt => {
@@ -31,10 +34,11 @@ const getContent = jwt => {
 		method: 'GET',
 		headers: {
 			'Content-Type': 'application/json',
-			'Authorization': `Bearer ${jwt}`
+			Authorization: `Bearer ${jwt}`
 		}
-	}).then(response => processResponse(response, 'Ошибка получения данных'))
-		.then(data => data)
-}
+	})
+		.then(response => processResponse(response, 'Ошибка получения данных'))
+		.then(data => data);
+};
 
 export { registerUser, loginUser, getContent };

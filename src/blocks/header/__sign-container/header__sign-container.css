@@ -1,5 +1,13 @@
 .header__sign-container {
-    margin: 0;
-    padding: 0;
-    display: flex;
+  margin: 0;
+  padding: 40px 0;
+  position: relative;
+  flex-direction: column;
+  align-items: center;
+  gap: 18px;
+  width: 100%;
+  opacity: 0;
+  display: none;
+  border-bottom: 1px solid rgba(84, 84, 84, 0.7);
+  box-sizing: border-box;
 }

@@ -1,0 +1,9 @@
+@media screen and (min-width: 900px) {
+  .header__sign-container_horizontal {
+    padding: 0;
+    display: flex;
+    opacity: 1;
+    border-bottom: none;
+    flex-direction: row;
+  }
+}

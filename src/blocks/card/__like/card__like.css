@@ -11,6 +11,7 @@
   background-size: 22px 19px;
   cursor: pointer;
   transition: opacity 0.1s linear;
+  outline: none;
 }
 
 .card__like:hover {

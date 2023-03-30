@@ -1,0 +1,14 @@
+.header__content {
+  margin: 0;
+  padding: 30px;
+  border-bottom: 1px solid rgba(84, 84, 84, 0.7);
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+@media screen and (min-width: 900px) {
+  .header__content {
+    padding: 45px 0 41px;
+  }
+}
