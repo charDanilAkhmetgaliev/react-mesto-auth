@@ -24,7 +24,7 @@ const Popup = ({ name, containerType, isOpen, onClose, children}) => {
     <div className={`popup popup_${name} ${isOpen && 'popup_opened'}`} onClick={handleOverlayClick}>
       <div className={`popup__container popup__container_${containerType}`}>
         {children}
-        <button type="button" className='popup__close-button' aria-label="Закрыть" onClick={onClose} ></button>
+        <button type="button" className='popup__close-button' aria-label="Закрыть" onClick={onClose} />
       </div>
     </div>
   )

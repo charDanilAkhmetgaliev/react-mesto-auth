@@ -225,13 +225,9 @@ export default function App() {
 			<Header userData={userData} signOut={signOut} />
 			<CurrentUserContext.Provider value={currentUser}>
 				<ValidationContext.Provider value={isValid}>
-					<AppContext.Provider
-						value={{ loggedIn: loggedIn, handleLogin: handleLogin }}
-					>
+					<AppContext.Provider value={{ loggedIn: loggedIn, handleLogin: handleLogin }}>
 						<Routes>
-							<Route
-								path='/'
-								element={
+							<Route path='/' element={
 									<ProtectedRoute
 										element={Main}
 										onEditProfile={handleEditProfileClick}
@@ -242,20 +238,14 @@ export default function App() {
 										onCardLike={handleCardLike}
 										onCardDelete={handleDeleteCardClick}
 										cards={cards}
-										loggedIn={loggedIn}
-									/>
-								}
-							/>
-							<Route
-								path='/sign-up'
-								element={
+										loggedIn={loggedIn}/>
+								}/>
+							<Route path='/sign-up' element={
 									<Register
 										handleTooltipToOpen={handleTooltipToOpen}
 										handleRegisterToSuccess={handleRegisterToSuccess}
-										handleRegisterToFailed={handleRegisterToFailed}
-									/>
-								}
-							/>
+										handleRegisterToFailed={handleRegisterToFailed}/>
+							}/>
 							<Route path='/sign-in' element={<Login />} />
 						</Routes>
 						<InfoTooltip
