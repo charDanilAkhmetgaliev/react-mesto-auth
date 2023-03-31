@@ -1,27 +1,17 @@
 import { useEffect, useState } from 'react';
+import {useForm} from "../hooks/useForm";
 const AuthForm = ({ onSubmit, formHeader, buttonText }) => {
-	const [formValue, setFormValue] = useState({
-		password: '',
-		email: ''
-	});
+	const {values, handleChange, setValues} = useForm({password: '', email: ''})
 	const resetForm = () => {
-		setFormValue({
+		setValues({
 			password: '',
 			email: ''
-		});
-	};
-	const handleChange = e => {
-		const { name, value } = e.target;
-
-		setFormValue({
-			...formValue,
-			[name]: value
 		});
 	};
 
 	const handleSubmit = e => {
 		e.preventDefault();
-		return onSubmit(formValue)
+		return onSubmit(values)
 			.then(() => resetForm())
 			.catch(err => console.log(err));
 	};
@@ -38,7 +28,7 @@ const AuthForm = ({ onSubmit, formHeader, buttonText }) => {
 						type='email'
 						placeholder='Email'
 						onChange={handleChange}
-						value={formValue.email}
+						value={values.email}
 					/>
 					<span className='auth__error auth__error_to_email'></span>
 				</label>
@@ -50,7 +40,7 @@ const AuthForm = ({ onSubmit, formHeader, buttonText }) => {
 						type='password'
 						placeholder='Пароль'
 						onChange={handleChange}
-						value={formValue.password}
+						value={values.password}
 					/>
 					<span className='auth__error auth__error_to_password'></span>
 				</label>

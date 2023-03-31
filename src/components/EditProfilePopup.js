@@ -1,10 +1,10 @@
 import PopupWithForm from "./PopupWithForm";
 import { useContext, useEffect, useRef, useState } from "react";
 import { CurrentUserContext } from '../contexts/CurrentUserContext'
+import {useForm} from "../hooks/useForm";
 
 export default function EditProfilePopup({ isOpen, onClose, onOutPopupClick, onUpdateUser, onValidation }) {
-  const [name, setName] = useState('');
-  const [description, setDescription] = useState('');
+  const {values, handleChange, setValues} = useForm({about: '', name: ''})
   const currentUser = useContext(CurrentUserContext);
 
   const nameInputRef = useRef();
@@ -20,24 +20,12 @@ export default function EditProfilePopup({ isOpen, onClose, onOutPopupClick, onU
     onValidation({ inputElement: descInputRef.current, spanElement: descSpanRef.current });
   }
 
-  function handleChangeName(e) {
-    setName(e.target.value);
-  }
-
-  function handleChangeDescription(e) {
-    setDescription(e.target.value);
-  }
-
   function handleSubmit() {
-    return onUpdateUser({
-      name,
-      about: description
-    })
+    return onUpdateUser(values);
   }
 
   useEffect(() => {
-    setName(currentUser.name);
-    setDescription(currentUser.about);
+    setValues({ name: currentUser.name, about: currentUser.about });
     nameInputRef.current.classList.remove('popup__input_error');
     descInputRef.current.classList.remove('popup__input_error');
     nameSpanRef.current.textContent = '';
@@ -61,8 +49,8 @@ export default function EditProfilePopup({ isOpen, onClose, onOutPopupClick, onU
                  name="name"
                  minLength="2"
                  maxLength="40"
-                 value={name || ''}
-                 onChange={handleChangeName}
+                 value={values.name || ''}
+                 onChange={handleChange}
                  onInput={handleValidationName}
                  required/>
           <span ref={nameSpanRef} className="popup__error profile-name-input-error"></span>
@@ -74,8 +62,8 @@ export default function EditProfilePopup({ isOpen, onClose, onOutPopupClick, onU
                  name="about"
                  minLength="2"
                  maxLength="200"
-                 value={description || ''}
-                 onChange={handleChangeDescription}
+                 value={values.about || ''}
+                 onChange={handleChange}
                  onInput={handleValidationDesc}
                  required/>
           <span ref={descSpanRef} className="popup__error profile-status-input-error"></span>

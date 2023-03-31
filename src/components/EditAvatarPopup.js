@@ -2,7 +2,6 @@ import PopupWithForm from "./PopupWithForm";
 import { useEffect, useRef} from "react";
 
 export default function EditAvatarPopup({ isOpen, onClose, onOutPopupClick, onUpdateAvatar, onValidation }) {
-
   const linkInputRef = useRef();
   const linkSpanRef = useRef();
 
