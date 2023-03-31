@@ -97,15 +97,7 @@ export default function App() {
 		setValid(false);
 		setTooltipIsOpen(false);
 	}
-	// обработчик клика вне попапа для его закрытия
-	function handleOutPopupClick(event) {
-		if (
-			event.target.classList.contains('popup') ||
-			event.target.classList.contains('infoTooltip')
-		) {
-			closeAllPopups();
-		}
-	}
+
 	// обработчик клика проставления лайка
 	function handleCardLike(card) {
 		const isLiked = card.likes.some(like => like._id === currentUser._id);
@@ -273,28 +265,24 @@ export default function App() {
 						<InfoTooltip
 							onClose={handleTooltipToClose}
 							tooltipIsOpen={tooltipIsOpen}
-							onOutTooltipClick={handleOutPopupClick}
 							registerIsSuccess={registerIsSuccess}
 						/>
 					</AppContext.Provider>
 					<EditProfilePopup
 						isOpen={isEditProfilePopupOpen}
 						onClose={closeAllPopups}
-						onOutPopupClick={handleOutPopupClick}
 						onUpdateUser={handleUpdateUser}
 						onValidation={handleValidation}
 					/>
 					<EditAvatarPopup
 						isOpen={isEditAvatarPopupOpen}
 						onClose={closeAllPopups}
-						onOutPopupClick={handleOutPopupClick}
 						onUpdateAvatar={handleUpdateAvatar}
 						onValidation={handleValidation}
 					/>
 					<AddPlacePopup
 						isOpen={isAddPlacePopupOpen}
 						onClose={closeAllPopups}
-						onOutPopupClick={handleOutPopupClick}
 						onAddPlace={handleAddPlaceSubmit}
 						onValidation={handleValidation}
 					/>
@@ -303,7 +291,6 @@ export default function App() {
 						name={'card-delete'}
 						title={'Вы уверены?'}
 						onClose={closeAllPopups}
-						onOutPopupClick={handleOutPopupClick}
 						onSubmit={handleCardDelete}
 						buttonText={'Да'}
 					/>
@@ -313,7 +300,6 @@ export default function App() {
 			<ImagePopup
 				card={selectedCard}
 				onClose={closeAllPopups}
-				onOutPopupClick={handleOutPopupClick}
 				isOpen={isImagePopupOpen}
 			/>
 		</>

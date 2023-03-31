@@ -1,4 +1,4 @@
-.infoTooltip__container {
+.popup__container_tooltip {
   width: 280px;
   height: 308px;
   margin: 0;
@@ -6,7 +6,7 @@
   background-color: rgb(255, 255, 255);
   position: relative;
   display: flex;
-  align-items: flex-end;
+  flex-direction: column;
   z-index: 1;
   border-radius: 10px;
   box-shadow: 0 0 25px rgba(0, 0, 0, 0.15);
@@ -19,7 +19,7 @@
 }
 
 @media screen and (min-width: 1000px) {
-  .infoTooltip__container {
+  .popup__container_tooltip {
     padding: 0 36px 60px;
     width: 430px;
     height: 330px;
