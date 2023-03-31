@@ -75,6 +75,7 @@
 @import url(./blocks/popup/__input/_error/popup__input_error.css);
 @import url(./blocks/popup/__error/_active/popup__error_active.css);
 @import url(./blocks/popup/__container/_form/popup__container_form.css);
+@import url(./blocks/popup/__container/_tooltip/popup__container_tooltip.css);
 
 /* auth-form */
 @import url(./blocks/auth/auth.css);
@@ -93,9 +94,7 @@
 
 /* infoTooltip */
 @import url(./blocks/infoTooltip/infoTooltip.css);
-@import url(./blocks/infoTooltip/__container/infoTooltip__container.css);
-@import url(blocks/infoTooltip/__container/_type/infoTooltip__container_type_failed.css);
-@import url(blocks/infoTooltip/__container/_type/infoTooltip__container_type_success.css);
-@import url(blocks/infoTooltip/__message/infoTooltip__message.css);
-@import url(blocks/infoTooltip/__close-button/infoTooltip__close-button.css);
-@import url(blocks/infoTooltip/_active/infoTooltip_active.css);
+@import url(./blocks/infoTooltip/__message/infoTooltip__message.css);
+@import url(./blocks/infoTooltip/__image/infoTooltip__image.css);
+@import url(./blocks/infoTooltip/__image/_type/infoTooltip__image_type_failed.css);
+@import url(./blocks/infoTooltip/__image/_type/infoTooltip__image_type_success.css);

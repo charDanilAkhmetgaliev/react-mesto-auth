@@ -1,11 +1,10 @@
-export default function ImagePopup({ card, onClose, onOutPopupClick, isOpen }) {
+import Popup from "./Popup";
+
+export default function ImagePopup({ card, onClose, isOpen }) {
   return (
-    <div className={`popup popup_card ${isOpen ? 'popup_opened-card' : ''}`} onClick={onOutPopupClick}>
-      <div className="popup__container">
-        <img src={card.link} alt={`Изображение ${card.name}`} className="popup__image" />
-        <figcaption className="popup__label">{card.name}</figcaption>
-        <button type="button" className="popup__close-button" aria-label="Закрыть" onClick={onClose}></button>
-      </div>
-    </div>
+    <Popup name='image-popup' isOpen={isOpen} onClose={onClose} containerType={'image'}>
+      <img src={card.link} alt={`Изображение ${card.name}`} className="popup__image" />
+      <figcaption className="popup__label">{card.name}</figcaption>
+    </Popup>
   )
 }

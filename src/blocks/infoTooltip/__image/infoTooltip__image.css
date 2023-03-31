@@ -1,0 +1,18 @@
+.infoTooltip__image {
+  margin: 50px auto 40px;
+  padding: 0;
+  background-size: 120px 120px;
+  background-repeat: no-repeat;
+  background-position: center;
+  width: 120px;
+  height: 120px;
+  top: 0;
+  left: 0;
+  z-index: 1;
+}
+
+@media screen and (min-width: 900px) {
+  .infoTooltip__image {
+    margin: 60px auto 30px;
+  }
+}

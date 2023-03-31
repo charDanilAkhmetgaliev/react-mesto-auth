@@ -1,35 +1,15 @@
-import { useContext } from 'react';
+import {useContext} from 'react';
+import Popup from "./Popup";
 
-const InfoTooltip = ({
-	onClose,
-	tooltipIsOpen,
-	onOutTooltipClick,
-	registerIsSuccess
-}) => {
-	return (
-		<div
-			className={`infoTooltip ${tooltipIsOpen && 'infoTooltip_active'}`}
-			onClick={onOutTooltipClick}
-		>
-			<div
-				className={`infoTooltip__container ${
-					registerIsSuccess
-						? 'infoTooltip__container_type_success'
-						: 'infoTooltip__container_type_failed'
-				}`}
-			>
-				<p className='infoTooltip__message'>
-					{registerIsSuccess
-						? 'Вы успешно зарегистрировались!'
-						: 'Что-то пошло не так! Попробуйте ещё раз.'}
-				</p>
-				<button
-					className='infoTooltip__close-button'
-					onClick={onClose}
-				></button>
-			</div>
-		</div>
-	);
+const InfoTooltip = ({onClose, tooltipIsOpen, registerIsSuccess}) => {
+  return (
+    <Popup onClose={onClose} isOpen={tooltipIsOpen} containerType='tooltip' name='tooltip'>
+      <div className={`infoTooltip__image ${registerIsSuccess ? 'infoTooltip__image_type_success' : 'infoTooltip__image_type_failed'}`}/>
+      <p className='infoTooltip__message'>
+        {registerIsSuccess ? 'Вы успешно зарегистрировались!' : 'Что-то пошло не так! Попробуйте ещё раз.'}
+      </p>
+    </Popup>
+  );
 };
 
 export default InfoTooltip;

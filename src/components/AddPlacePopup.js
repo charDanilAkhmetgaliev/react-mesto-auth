@@ -1,9 +1,9 @@
 import PopupWithForm from "./PopupWithForm";
 import { useEffect, useRef, useState } from "react";
+import {useForm} from "../hooks/useForm";
 
 export default function AddPlacePopup({ isOpen, onClose, onOutPopupClick, onAddPlace, onValidation }) {
-  const [name, setName] = useState('');
-  const [link, setLink] = useState('');
+  const {values, handleChange, setValues} = useForm({name: '', link: ''})
 
   const nameInputRef = useRef();
   const nameSpanRef = useRef();
@@ -18,21 +18,12 @@ export default function AddPlacePopup({ isOpen, onClose, onOutPopupClick, onAddP
     onValidation({ inputElement: linkInputRef.current, spanElement: linkSpanRef.current });
   }
 
-  function handleChangeName(e) {
-    setName(e.target.value);
-  }
-
-  function handleChangeLink(e) {
-    setLink(e.target.value);
-  }
-
   function handleSubmit() {
-    return onAddPlace({ name, link })
+    return onAddPlace(values);
   }
 
   useEffect(() => {
-    setName('');
-    setLink('');
+    setValues({name: '', values: ''});
     nameSpanRef.current.textContent = '';
     linkSpanRef.current.textContent = '';
     nameInputRef.current.classList.remove('popup__input_error');
@@ -53,8 +44,8 @@ export default function AddPlacePopup({ isOpen, onClose, onOutPopupClick, onAddP
                  id="new-card-name-input"
                  type="text"
                  className="popup__input popup__input_value-type_name"
-                 onChange={handleChangeName}
-                 value={name || ''}
+                 onChange={handleChange}
+                 value={values.name || ''}
                  name="name"
                  placeholder="Название"
                  minLength="2"
@@ -68,8 +59,8 @@ export default function AddPlacePopup({ isOpen, onClose, onOutPopupClick, onAddP
                  id="new-card-url-input"
                  type="url"
                  className="popup__input popup__input_value-type_link"
-                 onChange={handleChangeLink}
-                 value={link || ''}
+                 onChange={handleChange}
+                 value={values.link || ''}
                  name="link"
                  placeholder="Ссылка на картинку"
                  onInput={handleValidationLink}
