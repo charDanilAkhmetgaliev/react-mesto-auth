@@ -1,6 +1,4 @@
 import { useEffect, useState } from 'react';
-import { useNavigate } from 'react-router-dom';
-
 const AuthForm = ({ onSubmit, formHeader, buttonText }) => {
 	const [formValue, setFormValue] = useState({
 		password: '',
@@ -40,6 +38,7 @@ const AuthForm = ({ onSubmit, formHeader, buttonText }) => {
 						type='email'
 						placeholder='Email'
 						onChange={handleChange}
+						value={formValue.email}
 					/>
 					<span className='auth__error auth__error_to_email'></span>
 				</label>
@@ -51,6 +50,7 @@ const AuthForm = ({ onSubmit, formHeader, buttonText }) => {
 						type='password'
 						placeholder='Пароль'
 						onChange={handleChange}
+						value={formValue.password}
 					/>
 					<span className='auth__error auth__error_to_password'></span>
 				</label>

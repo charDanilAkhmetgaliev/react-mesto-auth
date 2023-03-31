@@ -13,15 +13,10 @@ const Register = ({
 	const value = useContext(AppContext);
 	const handleSubmit = formValue => {
 		return registerUser(formValue)
-			.then(() => {
-				handleRegisterToSuccess();
-				handleTooltipToOpen();
-			})
+			.then(() => handleRegisterToSuccess())
 			.then(() => navigate('/sign-in', { replace: true }))
-			.catch(() => {
-				handleRegisterToFailed();
-				handleTooltipToOpen();
-			});
+			.catch(() => handleRegisterToFailed())
+			.finally(() => handleTooltipToOpen())
 	};
 
 	useEffect(() => {
